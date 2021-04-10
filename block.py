@@ -37,6 +37,6 @@ class Block(object):
 
     def transactions(self):
         return self._transaction
-
+    
 
 
