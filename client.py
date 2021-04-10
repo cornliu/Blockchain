@@ -4,29 +4,17 @@ import db
 import blockchain
 import block
  
-
-
-
 def command():
-    print(sys.argv)
-    try:
-        database = db.DB('db.pickle')
-        Blockchain = db.load()
-    except:
-        database = db.DB('db.pickle')
-        Blockchain = blockchain.Blockchain()
-
+    database = db.DB('db.pickle')
+    Blockchain = database.load()
     if len(sys.argv) == 2 and sys.argv[1] == 'printchain':
         for i in range(len(Blockchain.blocks)):
             print('%s\n'%Blockchain.blocks[i])
-    elif (len(sys.argv) == 4) and (sys.argv[1] == 'addblock') and (sys.argv[2] == '-transaction'):
-        transaction = sys.argv[3][1:-1]  
-        counter = len(Blockchain.blocks)
-        Blockchain.Mine_Block('Block %i'%counter)
-        Blockchain.Print_BlockChain()
-
-
+    elif (len(sys.argv) == 4) and (str(sys.argv[1]) == 'addblock') and (str(sys.argv[2]) == '-transaction'):
+        Blockchain.Mine_Block(sys.argv[3])
         database.save(Blockchain)
+    elif (len(sys.argv) == 4) and (str(sys.argv[1]) == 'printblock') and (str(sys.argv[2]) == '-height'):
+        print(Blockchain.blocks[int(sys.argv[3])])
     else:
         help()
 def help():
@@ -37,25 +25,5 @@ def help():
     
 if __name__ == '__main__':
     command()
-    # try:
-    #     db = db.DB('db.pickle')
-    #     blockchain = db.load()
-    #     for i in range(len(blockchain.blocks)):
-    #         print(blockchain.blocks[i])
-    # except:
-    #     blockchain = Blockchain()
-    # counter = len(blockchain.blocks)
-    # while True:
-    #     flag = input('Mining??(Y/N/Reset) :')
-    #     if flag.lower() == 'y':
-    #         blockchain.Mine_Block('Block %i'%counter)
-    #         counter+=1
-    #     elif flag.lower() == 'r':
-    #         db.reset()
-    #         break
-    #     else:    
-    #         db.save(blockchain)
-    #         break
-    # new_parser()
 
     
